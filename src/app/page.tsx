@@ -1,60 +1,27 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { Inter, Poppins, Roboto, Playfair_Display, Montserrat } from "next/font/google";
-
-const poppins = Poppins({
-  weight: ['300', '400', '500', '600'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-});
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-});
-
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  variable: '--font-montserrat',
-});
+import { useState } from 'react';
+import { Inter } from "next/font/google";
+import Image from 'next/image';
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 });
 
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  variable: '--font-roboto',
-});
-
-
 export default function Home() {
   const [activeSection, setActiveSection] = useState<'games' | 'projects' | 'about'>('games');
   const [activeCard, setActiveCard] = useState<string | null>(null);
-  const [scrollThreshold, setScrollThreshold] = useState<Record<string, number>>({});
-  
+
   const handleScroll = (e: React.WheelEvent<HTMLDivElement>, title: string) => {
     // Only handle horizontal scroll
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
       e.preventDefault();
       e.stopPropagation();
-      setScrollThreshold(prev => {
-        const currentThreshold = prev[title] || 0;
-        const newThreshold = currentThreshold + e.deltaX;
-        // If threshold exceeds 100, activate the card
-        if (newThreshold > 100) {
-          setActiveCard(title);
-          return { ...prev, [title]: 0 };
-        }
-        // If threshold goes below -100, deactivate the card
-        if (newThreshold < -100) {
-          setActiveCard(null);
-          return { ...prev, [title]: 0 };
-        }
-        return { ...prev, [title]: newThreshold };
-      });
+      if (e.deltaX > 0) {
+        setActiveCard(title);
+      } else {
+        setActiveCard(null);
+      }
     }
   };
 
@@ -225,9 +192,11 @@ export default function Home() {
                       }
                     }}
                   >
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
+                      width={1920}
+                      height={1080}
                       className="object-cover w-full h-full"
                     />
                   </div>
