@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<'games' | 'projects' | 'about'>('games');
+  const [activeCard, setActiveCard] = useState<string | null>(null);
   
   const games = [
     {
@@ -11,8 +12,8 @@ export default function Home() {
       href: "/games/mic-check",
       shortDesc: "Rap Battle AI Game",
       roles: ["AI Programmer", "Backend Programmer"],
-      tools: ["FastAPI Server", "Unity Engine", "C# & Python"],
-      longDesc: "Beyond Touch is an ETC project team supported by Gierad Laput from Apple. Our goal is to leverage the unique capabilities of the Apple Watch, a wearable device that enables real-time body data collection, in gaming experiences."
+      tools: ["Unity(C#)", "FastAPI(Python)", "OpenAI API", "NLP"],
+      longDesc: "This is an AI-powered rap battle game that combines creative gameplay with advanced natural language processing. Players face off against AI rappers, each with distinct personalities, backgrounds, and lyrical styles. The game offers an engaging blend of competition and creativity, powered by a robust backend and AI systems."
     },
     {
       title: "Otter Agent",
@@ -82,73 +83,6 @@ export default function Home() {
     }
   ];
 
-  const renderProjects = () => (
-    <div className="space-y-8">
-      {projects.map((project) => (
-        <div key={project.title} className="group">
-          <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-gray-100">
-            <img
-              src={project.image}
-              alt={project.title}
-              className="object-cover w-full h-full"
-            />
-            {/* Hover Overlay */}
-            <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-90 transition-opacity duration-300">
-              <div className="absolute inset-0 p-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                <div className="h-full flex gap-8">
-                  {/* Left Column */}
-                  <div className="w-1/3 flex flex-col">
-                    <h3 className="text-xl font-medium mb-6">{project.shortDesc}</h3>
-                    
-                    <div className="space-y-6">
-                      <div>
-                        <h4 className="text-yellow-400 text-sm font-medium mb-2">Roles</h4>
-                        <ul className="space-y-1">
-                          {project.roles.map((role, index) => (
-                            <li key={index} className="text-gray-300 italic">
-                              {role}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-
-                      <div>
-                        <h4 className="text-yellow-400 text-sm font-medium mb-2">Skills & Tools</h4>
-                        <ul className="space-y-1">
-                          {project.tools.map((tool, index) => (
-                            <li key={index} className="text-gray-300 italic">
-                              {tool}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Column */}
-                  <div className="w-2/3">
-                    <p className="text-gray-200 leading-relaxed">
-                      {project.longDesc}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="mt-4 flex items-center justify-between">
-            <h2 className="text-lg font-medium">{project.title}</h2>
-            <a
-              href={project.href}
-              className="text-sm text-gray-600 hover:text-black flex items-center"
-            >
-              View <span className="ml-1">→</span>
-            </a>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-
   const renderAbout = () => (
     <div className="max-w-2xl">
       <h1 className="text-3xl font-bold mb-6">About Me</h1>
@@ -172,123 +106,204 @@ export default function Home() {
 
   return (
     <div className="flex min-h-screen">
-      {/* Left Sidebar */}
-      <aside className="w-64 fixed h-full p-8 bg-white">
-        <h1 className="text-2xl font-bold mb-8">Portfolio</h1>
-        
-        {/* Navigation */}
-        <nav className="space-y-4 mb-12">
-          <button
-            onClick={() => setActiveSection('games')}
-            className={`block w-full text-left px-4 py-2 rounded-lg transition-colors ${
-              activeSection === 'games' 
-                ? 'bg-black text-white' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            Games
-          </button>
-          <button
-            onClick={() => setActiveSection('projects')}
-            className={`block w-full text-left px-4 py-2 rounded-lg transition-colors ${
-              activeSection === 'projects' 
-                ? 'bg-black text-white' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            Projects
-          </button>
-          <button
-            onClick={() => setActiveSection('about')}
-            className={`block w-full text-left px-4 py-2 rounded-lg transition-colors ${
-              activeSection === 'about' 
-                ? 'bg-black text-white' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            About
-          </button>
-        </nav>
-        
-        {/* Social Links */}
-        <div className="space-y-2">
-          <a href="#" className="block text-gray-600 hover:text-black">Twitter</a>
-          <a href="#" className="block text-gray-600 hover:text-black">Instagram</a>
-          <a href="#" className="block text-gray-600 hover:text-black">Email</a>
+      {/* Wider Left Sidebar */}
+      <aside className="w-[20%] min-w-[200px] max-w-[300px] fixed h-full bg-white">
+        <div className="p-4 sm:p-6">
+          <h1 className="text-xl font-bold mb-6">Portfolio</h1>
+          
+          {/* Navigation */}
+          <nav className="space-y-3 mb-8">
+            <button
+              onClick={() => setActiveSection('games')}
+              className={`block w-full text-left px-3 py-2 transition-colors ${
+                activeSection === 'games' 
+                  ? 'bg-black text-white' 
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              Games
+            </button>
+            <button
+              onClick={() => setActiveSection('projects')}
+              className={`block w-full text-left px-3 py-2 transition-colors ${
+                activeSection === 'projects' 
+                  ? 'bg-black text-white' 
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              Projects
+            </button>
+            <button
+              onClick={() => setActiveSection('about')}
+              className={`block w-full text-left px-3 py-2 transition-colors ${
+                activeSection === 'about' 
+                  ? 'bg-black text-white' 
+                  : 'text-gray-600 hover:bg-gray-100'
+              }`}
+            >
+              About
+            </button>
+          </nav>
+          
+          {/* Social Links */}
+          <div className="space-y-2">
+            <a href="#" className="block text-gray-600 hover:text-black">Twitter</a>
+            <a href="#" className="block text-gray-600 hover:text-black">Instagram</a>
+            <a href="#" className="block text-gray-600 hover:text-black">Email</a>
+          </div>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="ml-64 flex-1 p-8">
-        <div className="max-w-5xl mx-auto">
-          {activeSection === 'games' && (
-            <div className="space-y-8">
-              {games.map((game) => (
-                <div key={game.title} className="group">
-                  <div className="relative aspect-[16/9] overflow-hidden rounded-lg bg-gray-100">
+      <main className="ml-[20%] flex-1 overflow-x-hidden">
+        <div className="w-[80%] max-w-[1200px]"> {/* Fixed width percentage container */}
+          <div className="space-y-12 p-4 sm:p-6 md:p-8">
+            {(activeSection === 'games' ? games : projects).map((item) => (
+              <div key={item.title} className="w-full">
+                {/* Image and Card Container */}
+                <div className="relative w-full">
+                  {/* Image Card */}
+                  <div 
+                    className={`w-full aspect-[16/9] bg-white shadow-lg overflow-hidden rounded-xl
+                      ${activeCard === item.title ? 'cursor-pointer' : ''}`}
+                    onClick={() => {
+                      if (activeCard === item.title) {
+                        setActiveCard(null);
+                      }
+                    }}
+                  >
                     <img
-                      src={game.image}
-                      alt={game.title}
+                      src={item.image}
+                      alt={item.title}
                       className="object-cover w-full h-full"
                     />
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-90 transition-opacity duration-300">
-                      <div className="absolute inset-0 p-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
-                        <div className="h-full flex gap-8">
-                          {/* Left Column */}
-                          <div className="w-1/3 flex flex-col">
-                            <h3 className="text-xl font-medium mb-6">{game.shortDesc}</h3>
-                            
-                            <div className="space-y-6">
-                              <div>
-                                <h4 className="text-yellow-400 text-sm font-medium mb-2">Roles</h4>
-                                <ul className="space-y-1">
-                                  {game.roles.map((role, index) => (
-                                    <li key={index} className="text-gray-300 italic">
-                                      {role}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
+                  </div>
 
-                              <div>
-                                <h4 className="text-yellow-400 text-sm font-medium mb-2">Skills & Tools</h4>
-                                <ul className="space-y-1">
-                                  {game.tools.map((tool, index) => (
-                                    <li key={index} className="text-gray-300 italic">
-                                      {tool}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            </div>
+                  {/* Sliding Card */}
+                  <div 
+                    className={`absolute top-0 h-full group
+                      transform transition-all duration-500 ease-in-out
+                      ${activeCard === item.title 
+                        ? 'left-full -translate-x-full bg-black'
+                        : 'left-full translate-x-[0%] bg-white border border-gray-200'}
+                      cursor-pointer overflow-hidden rounded-xl
+                      ${activeCard === item.title ? '' : 'hover:bg-black hover:border-transparent'}
+                      transition-all`}
+                    style={{ 
+                      width: '100%',
+                      marginLeft: activeCard === item.title ? '24px' : '0'
+                    }}
+                    onClick={() => {
+                      if (activeCard !== item.title) {
+                        setActiveCard(item.title);
+                      }
+                    }}
+                  >
+                    {/* Content */}
+                    <div className="h-full p-[4%] relative">
+                      {/* Two-column layout */}
+                      <div className="relative h-full flex gap-[4%]">
+                        {/* Left Column */}
+                        <div className="w-1/3 flex flex-col gap-[4%]">
+                          {/* Title Section */}
+                          <div>
+                            <h2 className={`text-[2.5cqw] font-medium mb-[0.8em] transition-colors
+                              ${activeCard === item.title 
+                                ? 'text-white' 
+                                : 'text-gray-600 group-hover:text-white'}`}>
+                              {item.title}
+                            </h2>
+                            <h3 className={`text-[1.8cqw] font-light transition-colors
+                              ${activeCard === item.title 
+                                ? 'text-gray-300' 
+                                : 'text-gray-500 group-hover:text-white'}`}>
+                              {item.shortDesc}
+                            </h3>
                           </div>
 
-                          {/* Right Column */}
-                          <div className="w-2/3">
-                            <p className="text-gray-200 leading-relaxed">
-                              {game.longDesc}
+                          {/* Roles Section */}
+                          <div className={`rounded-lg p-[5%] transition-all group/roles flex-1
+                            ${activeCard === item.title ? 'bg-white/5 backdrop-blur-sm hover:bg-white' : ''}`}>
+                            <h4 className={`text-[1.2cqw] font-medium mb-[0.8em] uppercase tracking-wider transition-colors
+                              ${activeCard === item.title 
+                                ? 'text-yellow-400 group-hover/roles:text-yellow-600' 
+                                : 'text-gray-600 group-hover:text-yellow-400'}`}>
+                              Roles
+                            </h4>
+                            <ul className="space-y-[0.5em]">
+                              {item.roles.map((role, index) => (
+                                <li key={index} className={`text-[1cqw] italic transition-colors
+                                  ${activeCard === item.title 
+                                    ? 'text-gray-300 group-hover/roles:text-gray-700' 
+                                    : 'text-gray-500 group-hover:text-white'}`}>
+                                  {role}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* Skills & Tools Section */}
+                          <div className={`rounded-lg p-[5%] transition-all group/tools flex-1
+                            ${activeCard === item.title ? 'bg-white/5 backdrop-blur-sm hover:bg-white' : ''}`}>
+                            <h4 className={`text-[1.2cqw] font-medium mb-[0.8em] uppercase tracking-wider transition-colors
+                              ${activeCard === item.title 
+                                ? 'text-yellow-400 group-hover/tools:text-yellow-600' 
+                                : 'text-gray-600 group-hover:text-yellow-400'}`}>
+                              Skills & Tools
+                            </h4>
+                            <ul className="space-y-[0.5em]">
+                              {item.tools.map((tool, index) => (
+                                <li key={index} className={`text-[1cqw] italic transition-colors
+                                  ${activeCard === item.title 
+                                    ? 'text-gray-300 group-hover/tools:text-gray-700' 
+                                    : 'text-gray-500 group-hover:text-white'}`}>
+                                  {tool}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+
+                        {/* Right Column */}
+                        <div className="w-2/3">
+                          <div className={`rounded-lg p-[5%] h-full transition-all group/about
+                            ${activeCard === item.title ? 'bg-white/5 backdrop-blur-sm hover:bg-white' : ''}`}>
+                            <h4 className={`text-[1.2cqw] font-medium mb-[0.8em] uppercase tracking-wider transition-colors
+                              ${activeCard === item.title 
+                                ? 'text-yellow-400 group-hover/about:text-yellow-600' 
+                                : 'text-gray-600 group-hover:text-yellow-400'}`}>
+                              About
+                            </h4>
+                            <p className={`text-[1cqw] leading-[1.6] transition-colors
+                              ${activeCard === item.title 
+                                ? 'text-gray-300 group-hover/about:text-gray-700' 
+                                : 'text-gray-500 group-hover:text-white'}`}>
+                              {item.longDesc}
                             </p>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4 flex items-center justify-between">
-                    <h2 className="text-lg font-medium">{game.title}</h2>
-                    <a
-                      href={game.href}
-                      className="text-sm text-gray-600 hover:text-black flex items-center"
-                    >
-                      View <span className="ml-1">→</span>
-                    </a>
-                  </div>
                 </div>
-              ))}
+
+                <div className="mt-4 flex items-center justify-between">
+                  <h2 className="text-lg font-medium">{item.title}</h2>
+                  <a
+                    href={item.href}
+                    className="text-sm text-gray-600 hover:text-black flex items-center"
+                  >
+                    View <span className="ml-1">→</span>
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+          {activeSection === 'about' && (
+            <div className="p-4 sm:p-6 md:p-8">
+              {renderAbout()}
             </div>
           )}
-          {activeSection === 'projects' && renderProjects()}
-          {activeSection === 'about' && renderAbout()}
         </div>
       </main>
     </div>
