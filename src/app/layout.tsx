@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins, Roboto, Playfair_Display, Montserrat } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
