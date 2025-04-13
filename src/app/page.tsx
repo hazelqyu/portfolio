@@ -1,27 +1,31 @@
 'use client';
 import { useState } from 'react';
 import { Inter } from "next/font/google";
-import Image from 'next/image';
 
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
 });
 
+
 export default function Home() {
   const [activeSection, setActiveSection] = useState<'games' | 'projects' | 'about'>('games');
   const [activeCard, setActiveCard] = useState<string | null>(null);
-
-  const handleScroll = (e: React.WheelEvent<HTMLDivElement>, title: string) => {
+  const [scrollPositions, setScrollPositions] = useState<Record<string, number>>({});
+  
+  const handleScroll = (e: WheelEvent, title: string) => {
     // Only handle horizontal scroll
     if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
       e.preventDefault();
-      e.stopPropagation();
-      if (e.deltaX > 0) {
-        setActiveCard(title);
-      } else {
-        setActiveCard(null);
-      }
+      setScrollPositions(prev => {
+        const currentPosition = prev[title] || 0;
+        const newPosition = currentPosition + e.deltaX;
+        // Limit scroll position between 0 and 100
+        return {
+          ...prev,
+          [title]: Math.min(Math.max(newPosition, 0), 100)
+        };
+      });
     }
   };
 
@@ -175,7 +179,7 @@ export default function Home() {
       </aside>
 
       {/* Main Content */}
-      <main className="ml-[20%] flex-1 overflow-x-hidden" onWheel={(e) => e.preventDefault()}>
+      <main className="ml-[20%] flex-1 overflow-x-hidden">
         <div className="w-[85%] max-w-[2560px]">
           <div className="space-y-12 p-4 sm:p-6 md:p-8">
             {(activeSection === 'games' ? games : projects).map((item) => (
@@ -192,11 +196,9 @@ export default function Home() {
                       }
                     }}
                   >
-                    <Image
+                    <img
                       src={item.image}
                       alt={item.title}
-                      width={1920}
-                      height={1080}
                       className="object-cover w-full h-full"
                     />
                   </div>
@@ -213,20 +215,15 @@ export default function Home() {
                       transition-all`}
                     style={{ 
                       width: '100%',
-                      marginLeft: activeCard === item.title ? '24px' : '0'
+                      marginLeft: activeCard === item.title ? '24px' : '0',
+                      transform: `translateX(${scrollPositions[item.title] || 0}%)`
                     }}
                     onClick={() => {
                       if (activeCard !== item.title) {
                         setActiveCard(item.title);
-                      } else {
-                        setActiveCard(null);
                       }
                     }}
-                    onWheel={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      handleScroll(e, item.title);
-                    }}
+                    onWheel={(e) => handleScroll(e as unknown as WheelEvent, item.title)}
                   >
                     {/* Content */}
                     <div className="h-full w-full px-[10%] py-[8%] relative flex items-center justify-center">

@@ -7,28 +7,6 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const poppins = Poppins({
-  weight: ['300', '400', '500', '600'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-});
-
-const roboto = Roboto({
-  weight: ['300', '400', '500', '700'],
-  subsets: ['latin'],
-  variable: '--font-roboto',
-});
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-});
-
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  variable: '--font-montserrat',
-});
-
 export const metadata: Metadata = {
   title: "Portfolio",
   description: "Personal Portfolio",
@@ -43,11 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`
-          ${inter.variable} 
-          ${poppins.variable} 
-          ${roboto.variable} 
-          ${playfair.variable} 
-          ${montserrat.variable}
+          ${inter.variable}
           antialiased
         `}
       >
