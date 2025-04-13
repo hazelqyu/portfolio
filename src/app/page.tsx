@@ -156,7 +156,7 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="ml-[20%] flex-1 overflow-x-hidden">
-        <div className="w-[80%] max-w-[1200px]"> {/* Fixed width percentage container */}
+        <div className="w-[90%] max-w-[1600px]"> {/* Increased from 80% and 1200px */}
           <div className="space-y-12 p-4 sm:p-6 md:p-8">
             {(activeSection === 'games' ? games : projects).map((item) => (
               <div key={item.title} className="w-full">
@@ -164,7 +164,7 @@ export default function Home() {
                 <div className="relative w-full">
                   {/* Image Card */}
                   <div 
-                    className={`w-full aspect-[16/9] bg-white shadow-lg overflow-hidden rounded-xl
+                    className={`w-full aspect-[16/9] bg-white shadow-lg overflow-hidden
                       ${activeCard === item.title ? 'cursor-pointer' : ''}`}
                     onClick={() => {
                       if (activeCard === item.title) {
@@ -184,9 +184,9 @@ export default function Home() {
                     className={`absolute top-0 h-full group
                       transform transition-all duration-500 ease-in-out
                       ${activeCard === item.title 
-                        ? 'left-full -translate-x-full bg-black'
+                        ? 'left-full -translate-x-[90%] bg-black' 
                         : 'left-full translate-x-[0%] bg-white border border-gray-200'}
-                      cursor-pointer overflow-hidden rounded-xl
+                      cursor-pointer overflow-hidden
                       ${activeCard === item.title ? '' : 'hover:bg-black hover:border-transparent'}
                       transition-all`}
                     style={{ 
