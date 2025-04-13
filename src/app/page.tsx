@@ -1,10 +1,63 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Inter, Poppins, Roboto, Playfair_Display, Montserrat } from "next/font/google";
+
+const poppins = Poppins({
+  weight: ['300', '400', '500', '600'],
+  subsets: ['latin'],
+  variable: '--font-poppins',
+});
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+});
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  variable: '--font-montserrat',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+});
+
+const roboto = Roboto({
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-roboto',
+});
+
 
 export default function Home() {
   const [activeSection, setActiveSection] = useState<'games' | 'projects' | 'about'>('games');
   const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [scrollThreshold, setScrollThreshold] = useState<Record<string, number>>({});
   
+  const handleScroll = (e: React.WheelEvent<HTMLDivElement>, title: string) => {
+    // Only handle horizontal scroll
+    if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
+      e.preventDefault();
+      e.stopPropagation();
+      setScrollThreshold(prev => {
+        const currentThreshold = prev[title] || 0;
+        const newThreshold = currentThreshold + e.deltaX;
+        // If threshold exceeds 100, activate the card
+        if (newThreshold > 100) {
+          setActiveCard(title);
+          return { ...prev, [title]: 0 };
+        }
+        // If threshold goes below -100, deactivate the card
+        if (newThreshold < -100) {
+          setActiveCard(null);
+          return { ...prev, [title]: 0 };
+        }
+        return { ...prev, [title]: newThreshold };
+      });
+    }
+  };
+
   const games = [
     {
       title: "Mic Check",
@@ -22,7 +75,7 @@ export default function Home() {
       shortDesc: "Apple Watch Game Collection",
       roles: ["Game Developer", "Backend Engineer"],
       tools: ["Unity", "SwiftUI", "Node.js"],
-      longDesc: "Beyond Touch is an ETC project team supported by Gierad Laput from Apple. Our goal is to leverage the unique capabilities of the Apple Watch, a wearable device that enables real-time body data collection, in gaming experiences."
+      longDesc: "Beyond Touch is an ETC project team supported by Gierad Laput from Apple. Our goal is to leverage the unique capabilities of the Apple Watch, a wearable device that enables real-time body data collection, in gaming experiences. Our team will design and develop various games based on the data provided by the Apple Watch, develop servers for data sharing, and ultimately create a suite of mini-game where players augment the Apple Watch to enhance reality gameplay."
     },
     {
       title: "Monolith",
@@ -155,8 +208,8 @@ export default function Home() {
       </aside>
 
       {/* Main Content */}
-      <main className="ml-[20%] flex-1 overflow-x-hidden">
-        <div className="w-[90%] max-w-[1600px]"> {/* Increased from 80% and 1200px */}
+      <main className="ml-[20%] flex-1 overflow-x-hidden" onWheel={(e) => e.preventDefault()}>
+        <div className="w-[85%] max-w-[2560px]">
           <div className="space-y-12 p-4 sm:p-6 md:p-8">
             {(activeSection === 'games' ? games : projects).map((item) => (
               <div key={item.title} className="w-full">
@@ -196,46 +249,46 @@ export default function Home() {
                     onClick={() => {
                       if (activeCard !== item.title) {
                         setActiveCard(item.title);
+                      } else {
+                        setActiveCard(null);
                       }
+                    }}
+                    onWheel={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleScroll(e, item.title);
                     }}
                   >
                     {/* Content */}
-                    <div className="h-full p-[4%] relative">
+                    <div className="h-full w-full px-[10%] py-[8%] relative flex items-center justify-center">
                       {/* Two-column layout */}
-                      <div className="relative h-full flex gap-[4%]">
+                      <div className="relative h-full flex flex-col md:flex-row gap-8 ">
                         {/* Left Column */}
-                        <div className="w-1/3 flex flex-col gap-[4%]">
+                        <div className="w-full md:w-1/3 flex flex-col gap-16">
                           {/* Title Section */}
-                          <div>
-                            <h2 className={`text-[2.5cqw] font-medium mb-[0.8em] transition-colors
+                          <div className="space-y-8">
+                            <h3 className={`text-[1.5cqw] font-bold transition-colors ${inter.className}
                               ${activeCard === item.title 
                                 ? 'text-white' 
-                                : 'text-gray-600 group-hover:text-white'}`}>
-                              {item.title}
-                            </h2>
-                            <h3 className={`text-[1.8cqw] font-light transition-colors
-                              ${activeCard === item.title 
-                                ? 'text-gray-300' 
-                                : 'text-gray-500 group-hover:text-white'}`}>
+                                : 'text-gray-200 group-hover:text-white'}`}>
                               {item.shortDesc}
                             </h3>
                           </div>
 
                           {/* Roles Section */}
-                          <div className={`rounded-lg p-[5%] transition-all group/roles flex-1
-                            ${activeCard === item.title ? 'bg-white/5 backdrop-blur-sm hover:bg-white' : ''}`}>
-                            <h4 className={`text-[1.2cqw] font-medium mb-[0.8em] uppercase tracking-wider transition-colors
+                          <div className="space-y-1">
+                            <h4 className={`text-[1.5cqw] font-bold transition-colors ${inter.className}
                               ${activeCard === item.title 
-                                ? 'text-yellow-400 group-hover/roles:text-yellow-600' 
-                                : 'text-gray-600 group-hover:text-yellow-400'}`}>
+                                ? 'text-yellow-400' 
+                                : 'text-gray-200'}`}>
                               Roles
                             </h4>
-                            <ul className="space-y-[0.5em]">
+                            <ul className="space-y-0">
                               {item.roles.map((role, index) => (
-                                <li key={index} className={`text-[1cqw] italic transition-colors
+                                <li key={index} className={`text-[1.2cqw] font-bold transition-colors ${inter.className}
                                   ${activeCard === item.title 
-                                    ? 'text-gray-300 group-hover/roles:text-gray-700' 
-                                    : 'text-gray-500 group-hover:text-white'}`}>
+                                    ? 'text-gray-200' 
+                                    : 'text-gray-200'}`}>
                                   {role}
                                 </li>
                               ))}
@@ -243,20 +296,19 @@ export default function Home() {
                           </div>
 
                           {/* Skills & Tools Section */}
-                          <div className={`rounded-lg p-[5%] transition-all group/tools flex-1
-                            ${activeCard === item.title ? 'bg-white/5 backdrop-blur-sm hover:bg-white' : ''}`}>
-                            <h4 className={`text-[1.2cqw] font-medium mb-[0.8em] uppercase tracking-wider transition-colors
+                          <div className="space-y-1">
+                            <h4 className={`text-[1.5cqw] font-bold transition-colors ${inter.className}
                               ${activeCard === item.title 
-                                ? 'text-yellow-400 group-hover/tools:text-yellow-600' 
-                                : 'text-gray-600 group-hover:text-yellow-400'}`}>
-                              Skills & Tools
+                                ? 'text-yellow-400' 
+                                : 'text-gray-200'}`}>
+                              Stack
                             </h4>
-                            <ul className="space-y-[0.5em]">
+                            <ul className="space-y-0">
                               {item.tools.map((tool, index) => (
-                                <li key={index} className={`text-[1cqw] italic transition-colors
+                                <li key={index} className={`text-[0.8cqw] font-bold italic transition-colors ${inter.className}
                                   ${activeCard === item.title 
-                                    ? 'text-gray-300 group-hover/tools:text-gray-700' 
-                                    : 'text-gray-500 group-hover:text-white'}`}>
+                                    ? 'text-gray-200' 
+                                    : 'text-gray-200'}`}>
                                   {tool}
                                 </li>
                               ))}
@@ -265,19 +317,12 @@ export default function Home() {
                         </div>
 
                         {/* Right Column */}
-                        <div className="w-2/3">
-                          <div className={`rounded-lg p-[5%] h-full transition-all group/about
-                            ${activeCard === item.title ? 'bg-white/5 backdrop-blur-sm hover:bg-white' : ''}`}>
-                            <h4 className={`text-[1.2cqw] font-medium mb-[0.8em] uppercase tracking-wider transition-colors
+                        <div className="w-full md:w-2/3">
+                          <div className="space-y-4">
+                            <p className={`text-[1.0cqw] font-regular transition-colors ${inter.className}
                               ${activeCard === item.title 
-                                ? 'text-yellow-400 group-hover/about:text-yellow-600' 
-                                : 'text-gray-600 group-hover:text-yellow-400'}`}>
-                              About
-                            </h4>
-                            <p className={`text-[1cqw] leading-[1.6] transition-colors
-                              ${activeCard === item.title 
-                                ? 'text-gray-300 group-hover/about:text-gray-700' 
-                                : 'text-gray-500 group-hover:text-white'}`}>
+                                ? 'text-gray-200' 
+                                : 'text-gray-200'}`}>
                               {item.longDesc}
                             </p>
                           </div>
