@@ -34,7 +34,7 @@ export default function Home() {
       title: "Mic Check",
       image: "/games/mic-check.jpg",
       href: "/games/mic-check",
-      shortDesc: "Rap Battle AI Game",
+      shortDesc: "A Rap Battle AI Game",
       roles: ["AI Programmer", "Backend Programmer"],
       tools: ["Unity(C#)", "FastAPI(Python)", "OpenAI API", "NLP"],
       longDesc: "This is an AI-powered rap battle game that combines creative gameplay with advanced natural language processing. Players face off against AI rappers, each with distinct personalities, backgrounds, and lyrical styles. The game offers an engaging blend of competition and creativity, powered by a robust backend and AI systems."
