@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Mic Check",
+    "media": {
+      "type": "image",
+      "url": "/games/mic-check.jpg"
+    },
+    "href": "/games/mic-check",
+    "shortDesc": "A Rap Battle AI Game",
+    "roles": ["AI Programmer", "Backend Programmer"],
+    "tools": ["Unity(C#)", "FastAPI(Python)", "OpenAI API", "NLP"],
+    "longDesc": "This is an AI-powered rap battle game that combines creative gameplay with advanced natural language processing. Players face off against AI rappers, each with distinct personalities, backgrounds, and lyrical styles. The game offers an engaging blend of competition and creativity, powered by a robust backend and AI systems."
+  },
+  {
+    "title": "Otter Agent",
+    "media": {
+      "type": "video",
+      "url": "https://www.youtube.com/embed/jj5GmA7i7kA"
+    },
+    "href": "/games/otter-agent",
+    "shortDesc": "Apple Watch Game Collection",
+    "roles": ["Game Developer", "Backend Engineer"],
+    "tools": ["Unity", "SwiftUI", "Node.js"],
+    "longDesc": "Beyond Touch is an ETC project team supported by Gierad Laput from Apple. Our goal is to leverage the unique capabilities of the Apple Watch, a wearable device that enables real-time body data collection, in gaming experiences. Our team will design and develop various games based on the data provided by the Apple Watch, develop servers for data sharing, and ultimately create a suite of mini-game where players augment the Apple Watch to enhance reality gameplay."
+  }
+] 

@@ -1,0 +1,26 @@
+[
+  {
+    "title": "AI Music Generator",
+    "media": {
+      "type": "image",
+      "url": "/projects/portfolio.jpg"
+    },
+    "href": "/projects/music-gen",
+    "shortDesc": "Deep Learning Music Creation",
+    "roles": ["ML Engineer", "Full-stack Developer"],
+    "tools": ["PyTorch", "React", "Python"],
+    "longDesc": "An AI-powered music generation system that creates original compositions based on user input and preferences. The system uses deep learning models to understand musical patterns and generate new pieces."
+  },
+  {
+    "title": "Portfolio Website",
+    "media": {
+      "type": "image",
+      "url": "/projects/portfolio.jpg"
+    },
+    "href": "/projects/portfolio",
+    "shortDesc": "Personal Portfolio",
+    "roles": ["Frontend Developer", "Designer"],
+    "tools": ["Next.js", "Tailwind CSS", "TypeScript"],
+    "longDesc": "A modern, responsive portfolio website built with Next.js and Tailwind CSS. Features smooth animations, dynamic content loading, and an intuitive user interface."
+  }
+] 
